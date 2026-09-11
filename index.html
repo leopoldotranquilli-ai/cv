@@ -68,50 +68,54 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .lang-toggle {
-      font-family: inherit;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      color: var(--fg);
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 5px 13px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s, background 0.2s;
-    }
-
-    .lang-toggle:hover {
-      border-color: var(--blue);
-      color: var(--blue);
-    }
-
-    .theme-toggle {
-      position: relative;
-      width: 52px; height: 28px;
-      border-radius: 999px;
-      border: none;
-      cursor: pointer;
+    .nav-sep {
+      width: 1px;
+      height: 20px;
       background: var(--border);
-      transition: background 0.3s;
       flex-shrink: 0;
     }
 
-    .theme-toggle::after {
-      content: '';
-      position: absolute;
-      top: 4px; left: 4px;
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      background: var(--fg);
-      transition: transform 0.3s, background 0.3s;
+    .seg {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 3px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--bg-card);
+      flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s;
     }
 
-    html.dark .theme-toggle::after { transform: translateX(24px); }
+    .seg button {
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 11px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .seg button:hover { color: var(--fg); }
+
+    .seg button[aria-pressed="true"] {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: #fff;
+    }
+
+    .seg-theme button {
+      font-size: 0.8rem;
+      padding: 5px 10px;
+    }
 
     /* ── HERO ────────────────────────────────── */
     .hero {
@@ -468,11 +472,12 @@
       .two-col { grid-template-columns: 1fr; gap: 40px; }
       .press-grid { grid-template-columns: 1fr; }
       nav { padding: 14px 24px; }
-      .lang-toggle { padding: 4px 10px; font-size: 0.72rem; }
+      .nav-actions { gap: 10px; }
+      .seg button { padding: 5px 9px; font-size: 0.68rem; }
     }
 
     @media print {
-      nav, .theme-toggle, .lang-toggle { display: none; }
+      nav, .seg, .nav-sep { display: none; }
       .hero { padding-top: 40px; }
       .job:hover, .press-card:hover { transform: none; box-shadow: none; }
       body { background: #fff; color: #000; }
@@ -486,8 +491,15 @@
 <nav>
   <div class="nav-logo"></div>
   <div class="nav-actions">
-    <button id="langBtn" class="lang-toggle" onclick="toggleLang()" aria-label="Cambia lingua / Switch language">IT</button>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    <div class="seg seg-lang" role="group" aria-label="Lingua / Language">
+      <button type="button" data-lang="it" onclick="setLang('it')" aria-pressed="false">IT</button>
+      <button type="button" data-lang="en" onclick="setLang('en')" aria-pressed="true">EN</button>
+    </div>
+    <span class="nav-sep" aria-hidden="true"></span>
+    <div class="seg seg-theme" role="group" aria-label="Tema / Theme">
+      <button type="button" data-theme="light" onclick="setTheme('light')" aria-pressed="false" title="Chiaro / Light">&#9728;</button>
+      <button type="button" data-theme="dark" onclick="setTheme('dark')" aria-pressed="true" title="Scuro / Dark">&#9790;</button>
+    </div>
   </div>
 </nav>
 
@@ -855,13 +867,25 @@
 </footer>
 
 <script>
-  // Theme toggle
-  function toggleTheme() {
-    document.documentElement.classList.toggle('dark');
-    document.documentElement.classList.toggle('light');
+  // Theme: explicit state, independent of the language control
+  function applyTheme(theme) {
+    var root = document.documentElement;
+    root.classList.toggle('dark', theme === 'dark');
+    root.classList.toggle('light', theme === 'light');
+    document.querySelectorAll('.seg-theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.theme === theme));
+    });
+    try { localStorage.setItem('cv-theme', theme); } catch (e) {}
   }
-  // Default: dark
-  document.documentElement.classList.add('dark');
+
+  function setTheme(theme) { applyTheme(theme); }
+
+  (function () {
+    var saved = '';
+    try { saved = localStorage.getItem('cv-theme') || ''; } catch (e) {}
+    if (saved !== 'light' && saved !== 'dark') saved = 'dark';
+    applyTheme(saved);
+  })();
 
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
@@ -877,26 +901,27 @@
 
 
 <script>
+  // Language: explicit state, independent of the theme control
   function applyLang(lang) {
     document.documentElement.setAttribute('lang', lang);
     document.querySelectorAll('[data-it]').forEach(function (el) {
       if (el.dataset.en === undefined) el.dataset.en = el.innerHTML;
       el.innerHTML = (lang === 'it') ? el.dataset.it : el.dataset.en;
     });
-    var btn = document.getElementById('langBtn');
-    if (btn) btn.textContent = (lang === 'it') ? 'EN' : 'IT';
+    document.querySelectorAll('.seg-lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+    });
     try { localStorage.setItem('cv-lang', lang); } catch (e) {}
   }
 
-  function toggleLang() {
-    var current = document.documentElement.getAttribute('lang') === 'it' ? 'it' : 'en';
-    applyLang(current === 'it' ? 'en' : 'it');
-  }
+  function setLang(lang) { applyLang(lang); }
 
   (function () {
-    var saved = 'en';
+    var saved = '';
     try { saved = localStorage.getItem('cv-lang') || ''; } catch (e) {}
-    if (!saved) saved = (navigator.language || '').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+    if (saved !== 'it' && saved !== 'en') {
+      saved = (navigator.language || '').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+    }
     applyLang(saved);
   })();
 </script>
