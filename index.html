@@ -65,6 +65,31 @@
       background-clip: text;
     }
 
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-toggle {
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--fg);
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 5px 13px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .lang-toggle:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
     .theme-toggle {
       position: relative;
       width: 52px; height: 28px;
@@ -443,10 +468,11 @@
       .two-col { grid-template-columns: 1fr; gap: 40px; }
       .press-grid { grid-template-columns: 1fr; }
       nav { padding: 14px 24px; }
+      .lang-toggle { padding: 4px 10px; font-size: 0.72rem; }
     }
 
     @media print {
-      nav, .theme-toggle { display: none; }
+      nav, .theme-toggle, .lang-toggle { display: none; }
       .hero { padding-top: 40px; }
       .job:hover, .press-card:hover { transform: none; box-shadow: none; }
       body { background: #fff; color: #000; }
@@ -459,7 +485,10 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo"></div>
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+  <div class="nav-actions">
+    <button id="langBtn" class="lang-toggle" onclick="toggleLang()" aria-label="Cambia lingua / Switch language">IT</button>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -470,13 +499,13 @@
   <div class="hero-content">
     <h1 class="hero-name">Leopoldo Tranquilli</h1>
     <p class="hero-role">Senior Executive &mdash; Marketing · Procurement · Innovation · Digital Transformation</p>
-    <p class="hero-summary">
-      Senior executive with over 30 years of experience at Gruppo TIM — in Italy and Brazil — with direct responsibility for devices, product and service development, procurement, open innovation, digital transformation, and HR digitalization. Proven track record in cross-functional leadership, supplier ecosystem management, go-to-market execution, and large-scale transformation programmes — combining strategic business vision with deep technological expertise. Currently operating as an independent advisor supporting public and private organizations in the telecoms, sustainability, and business startup domains.
+    <p class="hero-summary" data-it="Senior executive con oltre 30 anni di esperienza nel Gruppo TIM, in Italia e in Brasile, con responsabilità diretta su devices, sviluppo di prodotti e servizi, procurement, open innovation, trasformazione digitale e digitalizzazione HR. Track record consolidato nella leadership cross-funzionale, nella gestione di ecosistemi di fornitori, nel go-to-market e nei programmi di trasformazione su larga scala, coniugando visione strategica di business e solide competenze tecnologiche. Attualmente advisor indipendente a supporto di imprese pubbliche e private, con focus su TLC, sostenibilità e startup di impresa o di nuova iniziativa. Il mio è uno stile di leadership operativo, fondato sul coordinamento cross-funzionale e sulla valorizzazione delle competenze interne ed esterne, a partire dai collaboratori e da chi contribuisce concretamente ai risultati. Considero l’aggiornamento continuo delle competenze, mie e dei team con cui lavoro, parte integrante del mestiere. Accanto all’approccio pratico nel tradurre le esigenze di business in esecuzione scalabile, porto la capacità di contribuire all’ideazione e allo sviluppo di nuove iniziative ad alto contenuto innovativo.">
+      Senior executive with over 30 years of experience at Gruppo TIM — in Italy and Brazil — with direct responsibility for devices, product and service development, procurement, open innovation, digital transformation, and HR digitalization. Proven track record in cross-functional leadership, supplier ecosystem management, go-to-market execution, and large-scale transformation programmes — combining strategic business vision with deep technological expertise. Currently operating as an independent advisor supporting public and private organizations in the telecoms, sustainability, and business startup domains. I bring a hands-on leadership style, built on cross-functional coordination and on drawing out the value of internal and external expertise, starting with the collaborators and partners who genuinely contribute to results. I regard the continuous updating of skills, my own and those of the teams I work with, as an integral part of the job. Alongside a practical approach to turning business needs into scalable execution, I contribute to the ideation and development of new initiatives with a high innovation content.
     </p>
     <div class="hero-contacts">
       <div class="hero-contact">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        Roma, Italia
+        <span data-it="Roma, Italia">Rome, Italy</span>
       </div>
       <div class="hero-contact">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -488,7 +517,7 @@
       </div>
     </div>
     <div class="hero-dot">
-      <span><span class="dot dot-blue"></span>30+ Years of Experience</span>
+      <span><span class="dot dot-blue"></span data-it="30+ Anni di Esperienza">30+ Years of Experience</span>
       <span><span class="dot dot-purple"></span>TIM · Telecom Italia · TIM Brasil</span>
     </div>
   </div>
@@ -501,20 +530,20 @@
       <div class="section-icon">
         <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
       </div>
-      Professional Experience
+      <span data-it="Esperienza Professionale">Professional Experience</span>
     </h2>
     <div class="timeline">
 
       <div class="job reveal">
         <div class="job-header">
-          <div class="job-title">Independent Advisor</div>
-          <div class="job-period">Mar 2025 – Present</div>
+          <div class="job-title" data-it="Advisor Indipendente">Independent Advisor</div>
+          <div class="job-period" data-it="mar 2025 – oggi">Mar 2025 – Present</div>
         </div>
-        <div class="job-company">Self-employed</div>
+        <div class="job-company" data-it="Libera professione">Self-employed</div>
         <div class="job-desc">
           <ul style="margin: 0; padding-left: 18px; line-height: 1.9;">
-            <li>Acotel: advisory support on innovative and sustainable solutions in the Telecom, Water and Energy sectors (Mar–Dec 2025).</li>
-            <li>Camera Italo-Brasiliana di Cooperazione Sostenibile: advisor for the startup phase and development of readiness programs targeting Brazilian companies seeking to operate in the Italian market (Feb 2026 – ongoing).</li>
+            <li data-it="Acotel: supporto allo sviluppo di soluzioni innovative e sostenibili nei settori TLC, Acqua ed Energia (mar–dic 2025).">Acotel: advisory support on innovative and sustainable solutions in the Telecom, Water and Energy sectors (Mar–Dec 2025).</li>
+            <li data-it="Camera Italo-Brasiliana di Cooperazione Sostenibile: advisor per lo startup della società e lo sviluppo di programmi rivolti ad imprese brasiliane che intendono operare nel mercato italiano (feb 2026 – in corso).">Camera Italo-Brasiliana di Cooperazione Sostenibile: advisor for the startup phase and development of readiness programs targeting Brazilian companies seeking to operate in the Italian market (Feb 2026 – ongoing).</li>
           </ul>
         </div>
       </div>
@@ -522,118 +551,118 @@
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Digital HR</div>
-          <div class="job-period">Jun 2024 – Mar 2025</div>
+          <div class="job-period" data-it="giu 2024 – mar 2025">Jun 2024 – Mar 2025</div>
         </div>
         <div class="job-company">FiberCop</div>
-        <div class="job-desc">Responsible for HR systems Digitalization initiatives and process evolution. Cross-functional coordination for the adoption of new HR Tech platforms.</div>
+        <div class="job-desc" data-it="Responsabile delle iniziative di digitalizzazione dei sistemi HR e dell’evoluzione dei processi. Coordinamento inter-funzionale per l’adozione di nuove piattaforme HR Tech.">Responsible for HR systems Digitalization initiatives and process evolution. Cross-functional coordination for the adoption of new HR Tech platforms.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Digital HR / HR Digitalization</div>
-          <div class="job-period">Dec 2023 – Jun 2024</div>
+          <div class="job-period" data-it="dic 2023 – giu 2024">Dec 2023 – Jun 2024</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Led Digital HR activities in support of the evolution and Digitalization of Group-level HR processes.</div>
+        <div class="job-desc" data-it="Responsabile attività Digital HR a supporto dell’evoluzione e digitalizzazione dei processi HR di Gruppo.">Led Digital HR activities in support of the evolution and Digitalization of Group-level HR processes.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Digital Transformation Support</div>
-          <div class="job-period">Apr 2023 – Nov 2023</div>
+          <div class="job-period" data-it="apr 2023 – nov 2023">Apr 2023 – Nov 2023</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Oversaw specialist, administrative and operational activities related to corporate Digitalization processes.</div>
+        <div class="job-desc" data-it="Supervisione attività specialistiche, amministrative e operative legate ai processi di digitalizzazione aziendale.">Oversaw specialist, administrative and operational activities related to corporate Digitalization processes.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Commercial Caring Support</div>
-          <div class="job-period">Aug 2022 – Mar 2023</div>
+          <div class="job-period" data-it="ago 2022 – mar 2023">Aug 2022 – Mar 2023</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Managed commercial caring and customer service processes, with a focus on quality and operational efficiency.</div>
+        <div class="job-desc" data-it="Gestione dei processi di caring commerciale e customer service, con focus su qualità e ottimizzazione.">Managed commercial caring and customer service processes, with a focus on quality and operational efficiency.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Commercial Procurement</div>
-          <div class="job-period">Apr 2020 – Jul 2022</div>
+          <div class="job-period" data-it="apr 2020 – lug 2022">Apr 2020 – Jul 2022</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Procurement of devices and outsourced customer care services; vendor management and cost optimisation. Negotiated master agreements with leading OEMs and service providers for the consumer channel.</div>
+        <div class="job-desc" data-it="Procurement per devices e servizi di customer care in outsourcing; vendor management e ottimizzazione dei costi. Negoziazione contratti quadro con principali OEM e fornitori di servizi per il canale consumer.">Procurement of devices and outsourced customer care services; vendor management and cost optimisation. Negotiated master agreements with leading OEMs and service providers for the consumer channel.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Devices</div>
-          <div class="job-period">Jan 2019 – Apr 2020</div>
+          <div class="job-period" data-it="gen 2019 – apr 2020">Jan 2019 – Apr 2020</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">End-to-end management of the consumer device portfolio: development, certification, pricing and go-to-market. Optimised the product mix, improving margins across the retail channel.</div>
+        <div class="job-desc" data-it="Gestione end-to-end del portafoglio devices consumer: sviluppo, certificazione, pricing e go-to-market. Ottimizzazione del mix prodotto con incremento della marginalità sul canale retail.">End-to-end management of the consumer device portfolio: development, certification, pricing and go-to-market. Optimised the product mix, improving margins across the retail channel.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Working Capital &amp; Open Innovation</div>
-          <div class="job-period">Apr 2018 – Jan 2019</div>
+          <div class="job-period" data-it="apr 2018 – gen 2019">Apr 2018 – Jan 2019</div>
         </div>
         <div class="job-company">TIM (TIM WCAP)</div>
-        <div class="job-desc">Led TIM WCAP: startup scouting and open innovation initiatives in the Working Capital domain.</div>
+        <div class="job-desc" data-it="Responsabile di TIM WCAP: scouting di startup e iniziative di open innovation in ambito Working Capital.">Led TIM WCAP: startup scouting and open innovation initiatives in the Working Capital domain.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Consumer Procurement</div>
-          <div class="job-period">Nov 2016 – Apr 2018</div>
+          <div class="job-period" data-it="nov 2016 – apr 2018">Nov 2016 – Apr 2018</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Procurement of mobile and fixed handsets, SIMs, routers and customer equipment for the consumer market.</div>
+        <div class="job-desc" data-it="Procurement di terminali mobili e fissi, SIM, router e customer equipment per il mercato consumer.">Procurement of mobile and fixed handsets, SIMs, routers and customer equipment for the consumer market.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of International Purchasing Coordination</div>
-          <div class="job-period">Jul 2014 – Nov 2016</div>
+          <div class="job-period" data-it="lug 2014 – nov 2016">Jul 2014 – Nov 2016</div>
         </div>
-        <div class="job-company">TIM Group</div>
-        <div class="job-desc">International coordination of TIM subsidiaries; defined Group-level purchasing strategies and supplier relations.</div>
+        <div class="job-company" data-it="TIM (Gruppo)">TIM (Gruppo)</div>
+        <div class="job-desc" data-it="Coordinamento internazionale delle consociate TIM; definizione strategie di acquisto e gestione relazioni con fornitori a livello di Gruppo.">International coordination of TIM subsidiaries; defined Group-level purchasing strategies and supplier relations.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Off-the-Shelf Services</div>
-          <div class="job-period">Feb 2013 – Jun 2014</div>
+          <div class="job-period" data-it="feb 2013 – giu 2014">Feb 2013 – Jun 2014</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Conceived, developed and launched innovative services and solutions for the consumer market.</div>
+        <div class="job-desc" data-it="Ideazione, sviluppo e lancio di servizi e soluzioni innovative per il mercato consumer.">Conceived, developed and launched innovative services and solutions for the consumer market.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">VP Operational Planning &amp; Revenue Assurance</div>
-          <div class="job-period">Apr – Oct 2012</div>
+          <div class="job-period" data-it="apr – ott 2012">Apr – Oct 2012</div>
         </div>
         <div class="job-company">TIM Brasil</div>
-        <div class="job-desc">Demand planning, CTO budget control and Revenue Assurance activities for the Brazilian market.</div>
+        <div class="job-desc" data-it="Demand planning, controllo budget CTO e attività di Revenue Assurance per il mercato brasiliano.">Demand planning, CTO budget control and Revenue Assurance activities for the Brazilian market.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">Head of Device &amp; Service Development</div>
-          <div class="job-period">May 2010 – Dec 2011</div>
+          <div class="job-period" data-it="mag 2010 – dic 2011">May 2010 – Dec 2011</div>
         </div>
         <div class="job-company">Telecom Italia</div>
-        <div class="job-desc">Marketing responsibility for the TIM consumer device portfolio: technical specifications, certification and service development.</div>
+        <div class="job-desc" data-it="Marketing del portafoglio device consumer TIM: specifiche tecniche, certificazione e sviluppo servizi.">Marketing responsibility for the TIM consumer device portfolio: technical specifications, certification and service development.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
           <div class="job-title">VP Service Creation, VAS &amp; Device Management</div>
-          <div class="job-period">Feb 2009 – Apr 2010</div>
+          <div class="job-period" data-it="feb 2009 – apr 2010">Feb 2009 – Apr 2010</div>
         </div>
         <div class="job-company">TIM Brasil</div>
-        <div class="job-desc">Marketing responsibility for service creation, end-to-end device management and value-added services in the Brazilian market.</div>
+        <div class="job-desc" data-it="Marketing per service creation, device management end-to-end e servizi a valore aggiunto nel mercato brasiliano.">Marketing responsibility for service creation, end-to-end device management and value-added services in the Brazilian market.</div>
       </div>
 
       <div class="job reveal">
@@ -642,7 +671,7 @@
           <div class="job-period">2005 – 2008</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Technical marketing for the development and certification of the TIM product portfolio.</div>
+        <div class="job-desc" data-it="Technical marketing per sviluppo e certificazione del portafoglio prodotti TIM.">Technical marketing for the development and certification of the TIM product portfolio.</div>
       </div>
 
       <div class="job reveal">
@@ -651,16 +680,16 @@
           <div class="job-period">2000 – 2005</div>
         </div>
         <div class="job-company">TIM</div>
-        <div class="job-desc">Marketing of mobile value-added services and business innovation initiatives.</div>
+        <div class="job-desc" data-it="Marketing dei servizi mobile a valore aggiunto e delle iniziative di innovazione di business.">Marketing of mobile value-added services and business innovation initiatives.</div>
       </div>
 
       <div class="job reveal">
         <div class="job-header">
-          <div class="job-title">Project Manager — Project FIDO</div>
+          <div class="job-title" data-it="Project Manager — Progetto FIDO">Project Manager — Project FIDO</div>
           <div class="job-period">1993 – 1999</div>
         </div>
         <div class="job-company">Telecom Italia</div>
-        <div class="job-desc">Conceived, developed, built and launched a local mobility service based on CTM-DECT cordless technology.</div>
+        <div class="job-desc" data-it="Ideazione, sviluppo, realizzazione e lancio del servizio di mobilità locale su tecnologia cordless CTM-DECT.">Conceived, developed, built and launched a local mobility service based on CTM-DECT cordless technology.</div>
       </div>
 
     </div>
@@ -675,21 +704,21 @@
         <div class="section-icon">
           <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        Key Competencies
+        <span data-it="Competenze Chiave">Key Competencies</span>
       </h2>
       <div class="tags reveal">
         <span class="tag">Marketing &amp; Business Innovation</span>
         <span class="tag">Procurement &amp; Vendor Management</span>
-        <span class="tag">Product &amp; Service Development</span>
-        <span class="tag">Digital Transformation</span>
-        <span class="tag">Devices &amp; Telecom Technology</span>
+        <span class="tag" data-it="Sviluppo Prodotti e Servizi">Product &amp; Service Development</span>
+        <span class="tag" data-it="Trasformazione Digitale">Digital Transformation</span>
+        <span class="tag" data-it="Devices &amp; Tecnologia TLC">Devices &amp; Telecom Technology</span>
         <span class="tag">Open Innovation</span>
         <span class="tag">Go-to-Market Strategy</span>
         <span class="tag">Digital HR &amp; HR Tech</span>
-        <span class="tag">International Markets</span>
+        <span class="tag" data-it="Mercati Internazionali">International Markets</span>
         <span class="tag">P&amp;L Management</span>
-        <span class="tag">ESG Advisory &amp; Sustainability</span>
-        <span class="tag">Cross-functional Leadership</span>
+        <span class="tag" data-it="Advisory ESG &amp; Sostenibilità">ESG Advisory &amp; Sustainability</span>
+        <span class="tag" data-it="Leadership Cross-funzionale">Cross-functional Leadership</span>
       </div>
     </div>
     <div>
@@ -697,12 +726,12 @@
         <div class="section-icon">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         </div>
-        Languages
+        <span data-it="Lingue">Languages</span>
       </h2>
       <div class="lang-list reveal">
-        <div class="lang-item"><span>Italian</span><span class="lang-level">Native</span></div>
-        <div class="lang-item"><span>English</span><span class="lang-level">Professional</span></div>
-        <div class="lang-item"><span>Portuguese (Brazil)</span><span class="lang-level">Professional</span></div>
+        <div class="lang-item"><span data-it="Italiano">Italian</span><span class="lang-level" data-it="Madrelingua">Native</span></div>
+        <div class="lang-item"><span data-it="Inglese">English</span><span class="lang-level" data-it="Professionale">Professional</span></div>
+        <div class="lang-item"><span data-it="Portoghese (Brasile)">Portuguese (Brazil)</span><span class="lang-level" data-it="Professionale">Professional</span></div>
       </div>
     </div>
   </div>
@@ -717,7 +746,7 @@
           <div class="section-icon">
             <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           </div>
-          Education
+          <span data-it="Formazione">Education</span>
         </h2>
         <div class="edu-item reveal">
           <div class="edu-degree">MBA in Business</div>
@@ -725,13 +754,13 @@
           <div class="edu-year">2004 – 2005</div>
         </div>
         <div class="edu-item reveal">
-          <div class="edu-degree">Postgraduate Master in Telecommunications</div>
+          <div class="edu-degree" data-it="Master post-laurea in Telecomunicazioni">Postgraduate Master in Telecommunications</div>
           <div class="edu-school">Scuola di Specializzazione Superiore in Telecomunicazioni</div>
           <div class="edu-year">1992 – 1993</div>
         </div>
         <div class="edu-item reveal">
-          <div class="edu-degree">BSc in Electronic Engineering</div>
-          <div class="edu-school">Sapienza University of Rome</div>
+          <div class="edu-degree" data-it="Laurea in Ingegneria Elettronica">BSc in Electronic Engineering</div>
+          <div class="edu-school" data-it="Sapienza Università di Roma">Sapienza University of Rome</div>
           <div class="edu-year">1992</div>
         </div>
       </div>
@@ -740,13 +769,13 @@
           <div class="section-icon">
             <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          Professional Memberships
+          <span data-it="Appartenenze Professionali">Professional Memberships</span>
         </h2>
         <div class="aff-item reveal">
           <div class="aff-bullet"></div>
           <div>
             Ordine degli Ingegneri di Roma<br>
-            <span style="font-size:0.82rem;color:var(--muted)">Member since September 2025</span>
+            <span style="font-size:0.82rem;color:var(--muted)"><span data-it="Iscritto da settembre 2025">Member since September 2025</span></span>
           </div>
         </div>
       </div>
@@ -760,60 +789,60 @@
     <div class="section-icon">
       <svg viewBox="0 0 24 24"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>
     </div>
-    Press Coverage
+    <span data-it="Rassegna Stampa">Press Coverage</span>
   </h2>
   <div class="press-grid">
 
     <a class="press-card reveal" href="press-archives/01-general-wireless-cision.html" target="_blank">
       <div class="press-source">Cision / General Wireless</div>
-      <div class="press-title">General Wireless Seals Multi-Million Deal with Telecom Italia Mobile (TIM)</div>
+      <div class="press-title" data-it="General Wireless sigla un accordo multimilionario con Telecom Italia Mobile (TIM)">General Wireless Seals Multi-Million Deal with Telecom Italia Mobile (TIM)</div>
       <div class="press-desc">Press release on a major commercial agreement between General Wireless and TIM, with direct involvement in device portfolio management.</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/02-qualcomm-brew-2007.html" target="_blank">
       <div class="press-source">Qualcomm</div>
-      <div class="press-title">Qualcomm Honours Winners of the BREW 2007 Developer Awards</div>
+      <div class="press-title" data-it="Qualcomm premia i vincitori dei BREW 2007 Developer Awards">Qualcomm Honours Winners of the BREW 2007 Developer Awards</div>
       <div class="press-desc">TIM, headline sponsor of the BREW 2007 Developer Awards, represented by Leopoldo Tranquilli, VP Device &amp; SIM Development: "TIM is proud to sponsor this recognition of mobile innovation."</div>
       <div class="press-date">June 2007</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/03-mondo-digitale-2002.pdf" target="_blank">
       <div class="press-source">Mondo Digitale — AICA</div>
-      <div class="press-title">Article published in Mondo Digitale</div>
+      <div class="press-title" data-it="Articolo pubblicato su Mondo Digitale">Article published in Mondo Digitale</div>
       <div class="press-desc">Editorial contribution published in the scientific journal Mondo Digitale (AICA), pages 52–60, issue 3.</div>
       <div class="press-date">2002</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/04-key4biz-symbian-2008.html" target="_blank">
       <div class="press-source">Key4biz</div>
-      <div class="press-title">Symbian Foundation: TIM Joins the Open Source Project</div>
+      <div class="press-title" data-it="Symbian Foundation: TIM aderisce al progetto open source">Symbian Foundation: TIM Joins the Open Source Project</div>
       <div class="press-desc">Leopoldo Tranquilli, VP Handset &amp; SIM Development at TIM, comments on TIM's joining of the Symbian Foundation: "TIM was a pioneer in the adoption of S60 on Symbian."</div>
       <div class="press-date">14 July 2008</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/05-corriere-smartphone-2011.html" target="_blank">
       <div class="press-source">Corriere Comunicazioni</div>
-      <div class="press-title">Tranquilli: "2011 Will Be the Year of the Mass-Market Smartphone"</div>
+      <div class="press-title" data-it="Tranquilli: “Il 2011 l’anno dello smartphone di massa”">Tranquilli: "2011 Will Be the Year of the Mass-Market Smartphone"</div>
       <div class="press-desc">Leopoldo Tranquilli predicts smartphones will overtake feature phones and presents the Application Manager, a cross-device app platform for TIM customers.</div>
       <div class="press-date">7 March 2011</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/06-corriere-consumer-mobile-2011.html" target="_blank">
       <div class="press-source">Corriere Comunicazioni</div>
-      <div class="press-title">Consumer Mobile: Meet the Telecom Italia Team</div>
+      <div class="press-title" data-it="Consumer Mobile, ecco la squadra Telecom Italia">Consumer Mobile: Meet the Telecom Italia Team</div>
       <div class="press-desc">Leopoldo Tranquilli appointed Head of Devices within the new Consumer Mobile structure at Telecom Italia, tasked with defining technical specifications and managing the device portfolio.</div>
       <div class="press-date">10 June 2011</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/07-gamesvillage-oppo-5g.html" target="_blank">
       <div class="press-source">Gamesvillage</div>
-      <div class="press-title">OPPO Reno 5G: 5G Network Capabilities Showcased in Rome</div>
+      <div class="press-title" data-it="OPPO Reno 5G: a Roma le potenzialità della nuova rete">OPPO Reno 5G: 5G Network Capabilities Showcased in Rome</div>
       <div class="press-desc">Event in Rome demonstrating the capabilities of the 5G network with the OPPO Reno device. Leopoldo Tranquilli took the stage for TIM to present the details of the collaboration between OPPO and the Italian operator.</div>
     </a>
 
     <a class="press-card reveal" href="press-archives/08-tecnoblog-motorola-quench-android.html" target="_blank">
       <div class="press-source">Tecnoblog (Brazil)</div>
-      <div class="press-title">Motorola and TIM Announce the Quench, Running Android</div>
+      <div class="press-title" data-it="Motorola e TIM annunciano il Quench, che gira su Android">Motorola and TIM Announce the Quench, Running Android</div>
       <div class="press-desc">Leopoldo Tranquilli, Marketing Director of TIM Brasil, on the exclusive launch of the Motorola Quench: "We seek innovation and the best models for our customers, while continuing to invest in the Android platform, which we pioneered in Brazil."</div>
       <div class="press-date">24 February 2010</div>
     </a>
@@ -822,7 +851,7 @@
 </section>
 
 <footer>
-  &copy; 2025 Leopoldo Tranquilli &mdash; leopoldo.tranquilli@gmail.com &mdash; Rome, Italy
+  <span data-it="&copy; 2025 Leopoldo Tranquilli &mdash; leopoldo.tranquilli@gmail.com &mdash; Roma, Italia">&copy; 2025 Leopoldo Tranquilli &mdash; leopoldo.tranquilli@gmail.com &mdash; Rome, Italy</span>
 </footer>
 
 <script>
@@ -844,6 +873,32 @@
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+
+<script>
+  function applyLang(lang) {
+    document.documentElement.setAttribute('lang', lang);
+    document.querySelectorAll('[data-it]').forEach(function (el) {
+      if (el.dataset.en === undefined) el.dataset.en = el.innerHTML;
+      el.innerHTML = (lang === 'it') ? el.dataset.it : el.dataset.en;
+    });
+    var btn = document.getElementById('langBtn');
+    if (btn) btn.textContent = (lang === 'it') ? 'EN' : 'IT';
+    try { localStorage.setItem('cv-lang', lang); } catch (e) {}
+  }
+
+  function toggleLang() {
+    var current = document.documentElement.getAttribute('lang') === 'it' ? 'it' : 'en';
+    applyLang(current === 'it' ? 'en' : 'it');
+  }
+
+  (function () {
+    var saved = 'en';
+    try { saved = localStorage.getItem('cv-lang') || ''; } catch (e) {}
+    if (!saved) saved = (navigator.language || '').toLowerCase().indexOf('it') === 0 ? 'it' : 'en';
+    applyLang(saved);
+  })();
 </script>
 
 </body>
