@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Leopoldo Tranquilli — CV</title>
   <meta name="description" content="Leopoldo Tranquilli — Senior Executive CV">
+  <!-- Keeps the page out of search results. It stays fully reachable to anyone with the link. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -463,6 +466,109 @@
       transform: none;
     }
 
+    /* CONTACT */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+    }
+
+    /* An author-level display:flex would otherwise beat the hidden attribute. */
+    .modal-backdrop[hidden] { display: none; }
+
+    .modal {
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+      animation: fadeUp 0.28s ease both;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    .modal-title { font-size: 1.25rem; font-weight: 700; }
+
+    .modal-close {
+      font-size: 1.5rem;
+      line-height: 1;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .modal-close:hover { color: var(--fg); }
+
+    .modal-note {
+      font-size: 0.83rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .field { margin-bottom: 14px; }
+
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.92rem;
+      color: var(--fg);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      transition: border-color 0.2s;
+    }
+
+    .field input:focus,
+    .field textarea:focus { outline: none; border-color: var(--blue); }
+
+    .field textarea { resize: vertical; min-height: 120px; }
+
+    .modal-submit {
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 6px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .modal-submit:hover { opacity: 0.9; }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 768px) {
       .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 32px; }
@@ -477,7 +583,7 @@
     }
 
     @media print {
-      nav, .seg, .nav-sep { display: none; }
+      nav, .seg, .nav-sep, .modal-backdrop { display: none !important; }
       .hero { padding-top: 40px; }
       .job:hover, .press-card:hover { transform: none; box-shadow: none; }
       body { background: #fff; color: #000; }
@@ -521,7 +627,7 @@
       </div>
       <div class="hero-contact">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        <a href="mailto:leopoldo.tranquilli@gmail.com">leopoldo.tranquilli@gmail.com</a>
+        <a href="#contatto" onclick="openContact(event)" data-it="Scrivimi">Contact me</a>
       </div>
       <div class="hero-contact">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -863,8 +969,34 @@
 </section>
 
 <footer>
-  <span data-it="&copy; 2025 Leopoldo Tranquilli &mdash; leopoldo.tranquilli@gmail.com &mdash; Roma, Italia">&copy; 2025 Leopoldo Tranquilli &mdash; leopoldo.tranquilli@gmail.com &mdash; Rome, Italy</span>
+  <span data-it="&copy; 2025 Leopoldo Tranquilli &mdash; Roma, Italia">&copy; 2025 Leopoldo Tranquilli &mdash; Rome, Italy</span>
 </footer>
+
+<!-- CONTACT -->
+<div id="contactModal" class="modal-backdrop" hidden onclick="backdropClose(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+    <div class="modal-head">
+      <div class="modal-title" id="contactTitle" data-it="Scrivimi">Get in touch</div>
+      <button type="button" class="modal-close" onclick="closeContact()" aria-label="Chiudi / Close">&times;</button>
+    </div>
+    <p class="modal-note" data-it="Compila il modulo: si aprir&agrave; il tuo programma di posta con il messaggio gi&agrave; pronto da inviare.">Fill in the form and your email client will open with the message ready to send.</p>
+    <form onsubmit="return sendContact(event)">
+      <div class="field">
+        <label for="cName" data-it="Nome">Name</label>
+        <input type="text" id="cName" required placeholder="Mario Rossi">
+      </div>
+      <div class="field">
+        <label for="cFrom" data-it="La tua email">Your email</label>
+        <input type="email" id="cFrom" required placeholder="mario@esempio.it">
+      </div>
+      <div class="field">
+        <label for="cMsg" data-it="Messaggio">Message</label>
+        <textarea id="cMsg" required data-it-ph="Scrivi qui il tuo messaggio..." placeholder="Write your message here..."></textarea>
+      </div>
+      <button type="submit" class="modal-submit" data-it="Apri il messaggio">Open the message</button>
+    </form>
+  </div>
+</div>
 
 <script>
   // Theme: explicit state, independent of the language control
@@ -908,6 +1040,10 @@
       if (el.dataset.en === undefined) el.dataset.en = el.innerHTML;
       el.innerHTML = (lang === 'it') ? el.dataset.it : el.dataset.en;
     });
+    document.querySelectorAll('[data-it-ph]').forEach(function (el) {
+      if (el.dataset.enPh === undefined) el.dataset.enPh = el.getAttribute('placeholder') || '';
+      el.setAttribute('placeholder', (lang === 'it') ? el.dataset.itPh : el.dataset.enPh);
+    });
     document.querySelectorAll('.seg-lang button').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
     });
@@ -924,6 +1060,49 @@
     }
     applyLang(saved);
   })();
+</script>
+
+<script>
+  // The address is assembled at runtime so it never sits in the page source
+  // as harvestable plain text.
+  function contactAddress() {
+    return ['leopoldo', '.', 'tranquilli'].join('') +
+           String.fromCharCode(64) +
+           ['gmail', '.', 'com'].join('');
+  }
+
+  function openContact(ev) {
+    if (ev) ev.preventDefault();
+    document.getElementById('contactModal').hidden = false;
+    document.getElementById('cName').focus();
+  }
+
+  function closeContact() {
+    document.getElementById('contactModal').hidden = true;
+  }
+
+  function backdropClose(ev) {
+    if (ev.target.id === 'contactModal') closeContact();
+  }
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape') closeContact();
+  });
+
+  function sendContact(ev) {
+    ev.preventDefault();
+    var name = document.getElementById('cName').value.trim();
+    var from = document.getElementById('cFrom').value.trim();
+    var msg = document.getElementById('cMsg').value.trim();
+    var it = document.documentElement.getAttribute('lang') === 'it';
+    var subject = (it ? 'Contatto dal CV online - ' : 'Contact from the online CV - ') + name;
+    var body = msg + '\n\n' + (it ? 'Da: ' : 'From: ') + name + ' <' + from + '>';
+    window.location.href = 'mailto:' + contactAddress() +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+    closeContact();
+    return false;
+  }
 </script>
 
 </body>
